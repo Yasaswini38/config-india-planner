@@ -2,26 +2,32 @@
 
 Mobile-first planner for Figma Config India, Bengaluru (15 October 2026).
 
-## What it has
-- Session itinerary and checklist
+## Features
+- Event itinerary and checklist
 - Session note templates
-- People/networking tracker
+- People / networking tracker
 - End-of-day recap
-- Local browser saving, text/JSON export, and backup import
-- Share link through the phone's native share sheet / WhatsApp
+- Local browser saving and text/JSON export + import
+- Supabase email-link sign-in for per-user cloud sync
+- Share through the native phone share sheet / WhatsApp
 
-## Current status
-This commit adds the standalone app. Local saves use browser localStorage. Cross-device cloud sync is **not enabled until** Supabase Auth + database integration are completed and tested.
+## 1. Deploy with GitHub Pages
+1. Open this repository's **Settings → Pages**.
+2. Under **Build and deployment → Source**, select **GitHub Actions**.
+3. The workflow in `.github/workflows/pages.yml` deploys the root folder on every push to `main`.
+4. Wait for the workflow to complete. The site URL should be `https://yasaswini38.github.io/config-india-planner/`.
 
-## Supabase secure storage setup
-1. Open the project's SQL Editor.
-2. Paste and run `supabase-schema.sql`.
-3. Enable Email OTP or magic-link sign-in in Authentication settings.
-4. Confirm RLS is enabled and policies restrict all rows to `auth.uid() = user_id`.
-5. Configure the app with the Supabase Project URL and publishable/anon key only. Never put a service-role key in client-side code.
+## 2. Configure private cloud storage in Supabase
+1. Open the project's **SQL Editor**.
+2. Paste the contents of `supabase-schema.sql` and click **Run**. This creates a table with row-level security; each signed-in user can access only their own row.
+3. In **Authentication → URL Configuration**, set the Site URL to `https://yasaswini38.github.io` and add this Redirect URL: `https://yasaswini38.github.io/config-india-planner/`.
+4. In **Authentication → Providers**, make sure Email sign-in is enabled.
+5. Return to the live planner, open **Sync & backup**, enter your email and request a sign-in link. Open it to sign in.
+6. Test saving a note, open the planner on another device, sign in with the same email and confirm that it loads.
 
-## Hosting
-Publish this static app on GitHub Pages from repository Settings → Pages → Deploy from a branch → main / root. The public page itself must not contain private notes, tokens, passwords, or a service-role key.
+The browser uses only the Supabase **Project URL and publishable key**. Never add a database password or service-role/secret key to client-side code. Access control depends on the RLS policies in `supabase-schema.sql`.
 
-## Download / WhatsApp
-Download `index.html` from the repository (Raw → Save) or use a downloadable planner supplied in ChatGPT. Use WhatsApp's Document attachment to send the downloaded HTML file, and send the live URL separately.
+## Local backup and WhatsApp
+- The live website syncs data to Supabase after you sign in and the SQL setup is complete.
+- A downloaded HTML file can keep local browser notes, but cloud sign-in should be done from the live HTTPS website.
+- Use **Sync & backup → Export backup (.txt)** or **Export data (.json)** to save your notes. Attach the downloaded `index.html` using WhatsApp's **Document** option, and share the live URL separately.
