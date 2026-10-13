@@ -6,6 +6,11 @@ create table if not exists public.planner_data (
   updated_at timestamptz not null default now()
 );
 alter table public.planner_data enable row level security;
+-- Explicit table grants: no anonymous access; authenticated users are still
+-- restricted to their own row by the RLS policies below.
+revoke all on table public.planner_data from anon, public;
+grant select, insert, update on table public.planner_data to authenticated;
+
 drop policy if exists "Users can read their own planner" on public.planner_data;
 create policy "Users can read their own planner"
   on public.planner_data for select to authenticated
