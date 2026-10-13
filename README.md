@@ -20,7 +20,7 @@ Mobile-first planner for Figma Config India, Bengaluru (15 October 2026).
 ## 2. Configure private cloud storage in Supabase
 1. Open the project's **SQL Editor**.
 2. Paste the contents of `supabase-schema.sql` and click **Run**. This creates a table with row-level security; each signed-in user can access only their own row.
-3. In **Authentication → URL Configuration**, set the Site URL to `https://yasaswini38.github.io` and add this Redirect URL: `https://yasaswini38.github.io/config-india-planner/`.
+3. In **Authentication → URL Configuration**, set the Site URL to `https://yasaswini38.github.io/config-india-planner/` and add this exact Redirect URL: `https://yasaswini38.github.io/config-india-planner/`.
 4. In **Authentication → Providers**, make sure Email sign-in is enabled.
 5. Return to the live planner, open **Sync & backup**, enter your email and request a sign-in link. Open it to sign in.
 6. Test saving a note, open the planner on another device, sign in with the same email and confirm that it loads.
